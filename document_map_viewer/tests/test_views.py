@@ -7,31 +7,37 @@ from commons import create_url_from_parameters
 spatial_fq_parameter_value = "{!bbox sfield=location}"
 default_point_coordinates = "51.16336,10.44768"
 default_distance_in_km = 50
+default_number_of_hits_per_page = 100
+default_cursor = "*"
 
 
 class TestJsonViewResponse:
     @pytest.mark.parametrize(
         ["url_parameters", "expected_search_parameters"],
         [
-            (   # Scenario - No query parameters given -> Use only default values
+            (  # Scenario - No query parameters given -> Use only default values
                 {"format": "json"},
                 {
                     "q": "*:*",
-                    "fq": spatial_fq_parameter_value,
+                    "fq": (spatial_fq_parameter_value,),
                     "pt": default_point_coordinates,
                     "d": default_distance_in_km,
+                    "rows": default_number_of_hits_per_page,
+                    "cursorMark": default_cursor,
                 },
             ),
-            (   # Scenario - Only starting year given
+            (  # Scenario - Only starting year given
                 {"format": "json", "yearStart": 1923},
                 {
                     "q": "*:*",
-                    "fq": tuple([spatial_fq_parameter_value, "year:[1923 TO NOW]"]),
+                    "fq": tuple(["date:[1923-01-01 TO NOW]", spatial_fq_parameter_value]),
                     "pt": default_point_coordinates,
                     "d": default_distance_in_km,
+                    "rows": default_number_of_hits_per_page,
+                    'cursorMark': default_cursor
                 },
             ),
-            (   # Scenario - Multiple terms given
+            (  # Scenario - Multiple terms given
                 {
                     "term": [
                         "https://www.biofid.de/ontologies/Tracheophyta/gbif/1234",
@@ -40,14 +46,16 @@ class TestJsonViewResponse:
                     "format": "json",
                 },
                 {
-                    "q": "taxa:'https://www.biofid.de/ontologies/Tracheophyta/gbif/1234' AND "
-                    "'https://www.biofid.de/ontologies/Tracheophyta/gbif/5678'",
-                    "fq": spatial_fq_parameter_value,
+                    "q": 'taxa:("https\\://www.biofid.de/ontologies/Tracheophyta/gbif/1234" OR '
+                    '"https\\://www.biofid.de/ontologies/Tracheophyta/gbif/5678")',
+                    "fq": (spatial_fq_parameter_value,),
                     "pt": default_point_coordinates,
                     "d": default_distance_in_km,
+                    "rows": default_number_of_hits_per_page,
+                    'cursorMark': default_cursor
                 },
             ),
-            (   # Scenario - Point data given
+            (  # Scenario - Point data given
                 {
                     "term": "https://www.biofid.de/ontologies/Tracheophyta/gbif/1234",
                     "format": "json",
@@ -56,24 +64,27 @@ class TestJsonViewResponse:
                     "lat": 8.6,
                 },
                 {
-                    "q": "taxa:https://www.biofid.de/ontologies/Tracheophyta/gbif/1234",
-                    "fq": spatial_fq_parameter_value,
-                    "pt": "50.1,8.6",
+                    "q": 'taxa:("https\\://www.biofid.de/ontologies/Tracheophyta/gbif/1234")',
+                    "fq": (spatial_fq_parameter_value,),
+                    "pt": "8.6,50.1",
                     "d": 10,
+                    "rows": default_number_of_hits_per_page,
+                    'cursorMark': default_cursor
                 },
             ),
-            (   # Scenario - Resume Token given
+            (  # Scenario - Resume Token given
                 {
                     "term": "https://www.biofid.de/ontologies/Tracheophyta/gbif/1234",
                     "format": "json",
                     "resumeToken": "1234abcd",
                 },
                 {
-                    "q": "taxa:https://www.biofid.de/ontologies/Tracheophyta/gbif/1234",
-                    "fq": spatial_fq_parameter_value,
+                    "q": 'taxa:("https\\://www.biofid.de/ontologies/Tracheophyta/gbif/1234")',
+                    "fq": (spatial_fq_parameter_value,),
                     "pt": default_point_coordinates,
                     "d": default_distance_in_km,
                     "cursorMark": "1234abcd",
+                    "rows": default_number_of_hits_per_page,
                 },
             ),
         ],

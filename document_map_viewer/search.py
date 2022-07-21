@@ -1,10 +1,17 @@
 import datetime
 from dataclasses import dataclass
+from typing import Optional
 
 from django.http import QueryDict
 from geojson import FeatureCollection, Feature
 
-from document_map_viewer.commons import DateSpan, Point, Query, SearchFilter, get_from_data
+from document_map_viewer.commons import (
+    DateSpan,
+    Point,
+    Query,
+    SearchFilter,
+    get_from_data,
+)
 from document_map_viewer import conf
 from document_map_viewer.databases.solr import SolrSpatialDatabase
 from document_map_viewer.databases.spatial import SpatialDatabase
@@ -34,7 +41,9 @@ class SpatialSearch:
 
     def search(self, query: Query, search_filter: SearchFilter) -> FeatureCollection:
         """Search spatial data according to the given parameters and return the data as GeoJSON Feature Collection."""
-        return self.spatial_database.search_locations_related_to_query(query, search_filter)
+        return self.spatial_database.search_locations_related_to_query(
+            query, search_filter
+        )
 
     def get_data_for_id(self, feature_id: str) -> Feature:
         """Searches the Feature data for a given ID."""
@@ -107,7 +116,11 @@ def create_date_span_from_url_parameters(url_parameters: QueryDict) -> DateSpan:
     return DateSpan(first_year=first_year, last_year=last_year)
 
 
-def create_point_from_url_parameter(url_parameters: QueryDict) -> Point:
+def create_point_from_url_parameter(url_parameters: QueryDict) -> Optional[Point]:
+    """ Creates a Point object from the given URL parameters.
+    If only one of the two values, longitude or latitude, is set while the other is None, a ValueError is raised.
+    If neither of the two values is set, None is returned.
+    """
     longitude = get_from_data(
         data=url_parameters,
         name=conf.URL_PARAMETER_NAME_LONGITUDE,
@@ -120,5 +133,11 @@ def create_point_from_url_parameter(url_parameters: QueryDict) -> Point:
         parameter_type=float,
         optional=True,
     )
+
+    if (longitude is None and latitude is not None) or (longitude is not None and latitude is None):
+        raise ValueError('Either both value have to be set or neither.')
+
+    if longitude is None:
+        return None
 
     return Point(longitude=longitude, latitude=latitude)
