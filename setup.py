@@ -5,7 +5,7 @@ requirements = [
     'djangorestframework~=3.13',
     'geojson',
     'pysolr~=3.9',
-    'biofid-python-utils@git+ssh://git@github.com/FID-Biodiversity/biofid-python-utils.git'
+    'biofid-python-utils@git+https://github.com/FID-Biodiversity/biofid-python-utils.git@main'
 ]
 
 setup(
