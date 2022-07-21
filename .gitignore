@@ -1,0 +1,9 @@
+venv/
+.tox/
+.idea/
+
+**/*.egg-info/
+**/.pytest_cache/
+**/__pycache__/
+
+manage.py
