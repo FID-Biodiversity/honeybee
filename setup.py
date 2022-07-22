@@ -18,8 +18,9 @@ setup(
     author='Adrian Pachzelt',
     author_email='a.pachzelt@ub.uni-frankfurt.de',
     url="https://www.biofid.de",
-    download_url='https://github.com/FID-Biodiversity/biofid-django-document-map-viewer',
+    download_url='https://github.com/FID-Biodiversity/honeybee',
     python_requires='>=3.7',
+    packages=['document_map_viewer'],
     install_requires=requirements,
     extras_require={
         'dev': [
