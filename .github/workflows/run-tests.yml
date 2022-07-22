@@ -22,7 +22,7 @@ jobs:
           cache: pip
       - name: Install Python Dependencies
         run: |
-          pip install -U pip virtualenv
-          pip install tox tox-gh-actions
+          pip3 install -U pip virtualenv
+          pip3 install tox tox-gh-actions
       - name: Run tox
         run: tox -e py
