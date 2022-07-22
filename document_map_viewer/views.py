@@ -23,3 +23,7 @@ def search_view(request: Request) -> Response:
         'spatialData': spatial_data
     }
     return Response(content)
+
+
+def convert_exception_to_response_content(exception: Exception) -> dict:
+    """ Takes a given exception and converts its content to an exception message. """

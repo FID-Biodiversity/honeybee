@@ -23,6 +23,6 @@ jobs:
       - name: Install Python Dependencies
         run: |
           pip3 install -U pip virtualenv
-          pip3 install tox tox-gh-actions
+          pip3 install tox tox-gh-actions pytest
       - name: Run tox
         run: tox
