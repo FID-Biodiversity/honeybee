@@ -1,9 +1,10 @@
-from typing import Literal, Iterable
+from typing import Iterable
 
 import pytest
 from django.http import QueryDict
-from document_map_viewer.tests.commons import create_url_from_parameters
+
 from document_map_viewer.commons import get_from_data
+from document_map_viewer.tests.commons import create_url_from_parameters
 
 GET_STRING = "GET"
 POST_STRING = "POST"
@@ -139,7 +140,7 @@ class TestDataExtractionFromRequest:
 
 
 @pytest.fixture
-def request_data(request, rf, request_type: Literal["GET", "POST"]):
+def request_data(request, rf, request_type: str):
     base_url = "/test"
     url_parameters = request.param
 
