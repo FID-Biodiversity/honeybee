@@ -21,7 +21,7 @@ jobs:
       - name: Install Python Dependencies
         run: |
           pip install -U pip virtualenv
-          pip install .
+          pip install .['dev']
           pip install tox tox-gh-actions pytest
       - name: Run tox
         run: tox
