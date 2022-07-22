@@ -25,4 +25,4 @@ jobs:
           pip3 install -U pip virtualenv
           pip3 install tox tox-gh-actions
       - name: Run tox
-        run: tox -e py
+        run: tox
