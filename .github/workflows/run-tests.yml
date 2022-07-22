@@ -23,6 +23,6 @@ jobs:
       - name: install python dependencies
         run: |
           pip install -U pip
-          pip install tox
+          pip install tox tox-gh-actions
       - name: run tox
         run: tox
