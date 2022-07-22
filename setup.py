@@ -24,8 +24,6 @@ setup(
     extras_require={
         'dev': [
             'pytest-django',
-            'tox',
-            'tox-gh-actions'
         ]
     }
 )

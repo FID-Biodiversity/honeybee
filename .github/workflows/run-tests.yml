@@ -25,4 +25,4 @@ jobs:
           pip install -U pip
           pip install tox tox-gh-actions
       - name: Run tox
-        run: tox
+        run: tox -e py
