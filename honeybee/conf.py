@@ -2,7 +2,7 @@ from functools import partial
 
 from django.conf import settings
 
-from document_map_viewer.commons import Point
+from honeybee.commons import Point
 
 get_setting = partial(getattr, settings)
 

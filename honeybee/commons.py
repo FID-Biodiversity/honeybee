@@ -3,7 +3,7 @@ from datetime import date
 from typing import Callable, Any, Optional, List
 
 from django.http import QueryDict
-from document_map_viewer import conf
+from honeybee import conf
 
 
 @dataclass

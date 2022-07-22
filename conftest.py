@@ -3,7 +3,7 @@ import json
 import pysolr
 import pytest
 
-pytest_plugins = ["document_map_viewer.tests.parameters"]
+pytest_plugins = ["honeybee.tests.parameters"]
 
 
 @pytest.fixture

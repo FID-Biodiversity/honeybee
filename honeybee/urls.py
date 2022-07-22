@@ -3,7 +3,7 @@ from rest_framework.urlpatterns import format_suffix_patterns
 
 from . import views
 
-app_name = 'document_map_viewer'
+app_name = 'biofid-honeybee'
 
 urlpatterns = [
     re_path('^search', views.search_view),

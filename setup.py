@@ -9,8 +9,8 @@ requirements = [
 ]
 
 setup(
-    name='BIOfid Django Document Map Viewer',
-    version='0.1.0',
+    name='BIOfid Honeybee',
+    version='0.2.0',
     description='Map geographical document data in the Browser',
     license="AGPLv3",
     long_description='',
@@ -20,7 +20,7 @@ setup(
     url="https://www.biofid.de",
     download_url='https://github.com/FID-Biodiversity/honeybee',
     python_requires='>=3.7',
-    packages=['document_map_viewer'],
+    packages=['honeybee'],
     install_requires=requirements,
     extras_require={
         'dev': [

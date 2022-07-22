@@ -9,10 +9,10 @@ from rest_framework.permissions import AllowAny
 from rest_framework.renderers import JSONRenderer
 from rest_framework.request import Request
 from rest_framework.response import Response
-from document_map_viewer.search import search_spatial_data
-from document_map_viewer import conf
+from honeybee.search import search_spatial_data
+from honeybee import conf
 from http import HTTPStatus
-from document_map_viewer.commons import UserInputException
+from honeybee.commons import UserInputException
 
 
 @api_view(["GET", "POST"])

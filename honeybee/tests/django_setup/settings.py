@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'document_map_viewer'
+    'honeybee'
 ]
 
 MIDDLEWARE = [
@@ -51,7 +51,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'document_map_viewer.tests.django_setup.urls'
+ROOT_URLCONF = 'honeybee.tests.django_setup.urls'
 
 TEMPLATES = [
     {

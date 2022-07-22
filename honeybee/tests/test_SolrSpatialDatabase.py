@@ -3,7 +3,7 @@ from unittest.mock import Mock
 import pytest
 from geojson import FeatureCollection
 
-from document_map_viewer.databases.solr import SolrSpatialDatabase
+from honeybee.databases.solr import SolrSpatialDatabase
 
 
 class TestSolrSpatialDatabase:

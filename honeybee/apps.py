@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class DocumentMapViewerConfig(AppConfig):
+class BiofidHoneybee(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'document_map_viewer'
+    name = 'honeybee'

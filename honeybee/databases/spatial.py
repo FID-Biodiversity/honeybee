@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 from geojson import Feature, FeatureCollection
-from document_map_viewer.commons import Query, SearchFilter
+from honeybee.commons import Query, SearchFilter
 
 
 class SpatialDatabase(ABC):

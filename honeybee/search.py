@@ -5,7 +5,7 @@ from typing import Optional
 from django.http import QueryDict
 from geojson import FeatureCollection, Feature
 
-from document_map_viewer.commons import (
+from honeybee.commons import (
     DateSpan,
     Point,
     Query,
@@ -13,9 +13,9 @@ from document_map_viewer.commons import (
     get_from_data,
     UserInputException,
 )
-from document_map_viewer import conf
-from document_map_viewer.databases.solr import SolrSpatialDatabase
-from document_map_viewer.databases.spatial import SpatialDatabase
+from honeybee import conf
+from honeybee.databases.solr import SolrSpatialDatabase
+from honeybee.databases.spatial import SpatialDatabase
 
 
 def search_spatial_data(raw_url_parameters: QueryDict) -> dict:

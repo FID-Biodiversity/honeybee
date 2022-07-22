@@ -4,7 +4,7 @@ from unittest.mock import Mock
 import pytest
 
 from commons import create_url_from_parameters
-from document_map_viewer import conf
+from honeybee import conf
 
 spatial_fq_parameter_value = "{!bbox sfield=location}"
 default_point_coordinates = "51.16336,10.44768"

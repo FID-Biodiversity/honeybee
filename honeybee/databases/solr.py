@@ -6,14 +6,14 @@ from biofid.data.query import escape_solr_input
 from geojson import Feature, FeatureCollection
 from pysolr import Solr
 
-from document_map_viewer import conf
-from document_map_viewer.commons import (
+from honeybee import conf
+from honeybee.commons import (
     Query,
     SearchFilter,
     DateSpan,
     UserInputException,
 )
-from document_map_viewer.databases.spatial import SpatialDatabase
+from honeybee.databases.spatial import SpatialDatabase
 
 SOLR_PARAMETER_NAME_FILTER_QUERY = "fq"
 SOLR_PARAMETER_NAME_POINT_COORDINATES = "pt"

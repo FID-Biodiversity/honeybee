@@ -3,8 +3,8 @@ from typing import Iterable
 import pytest
 from django.http import QueryDict
 
-from document_map_viewer.commons import get_from_data, UserInputException
-from document_map_viewer.tests.commons import create_url_from_parameters
+from honeybee.commons import get_from_data, UserInputException
+from honeybee.tests.commons import create_url_from_parameters
 
 GET_STRING = "GET"
 POST_STRING = "POST"
