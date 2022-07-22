@@ -1,4 +1,4 @@
-name: run tests
+name: Running tests
 
 on:
   push:
@@ -14,15 +14,15 @@ jobs:
         python-version: ['3.7', '3.8', '3.9', '3.10']
 
     steps:
-      - uses: actions/checkout@v2
-      - name: set up python ${{ matrix.python-version }}
-        uses: actions/setup-python@v2
+      - uses: actions/checkout@v3
+      - name: Set up python ${{ matrix.python-version }}
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.pyhton-version }}
           cache: pip
-      - name: install python dependencies
+      - name: Install Python Dependencies
         run: |
           pip install -U pip
           pip install tox tox-gh-actions
-      - name: run tox
+      - name: Run tox
         run: tox
