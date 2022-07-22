@@ -1,6 +1,6 @@
 import datetime
 import json
-from typing import Literal, Any, List, Optional
+from typing import Any, List, Optional
 
 from biofid.data.query import escape_solr_input
 from geojson import Feature, FeatureCollection
