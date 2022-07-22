@@ -8,17 +8,17 @@ from document_map_viewer.databases.solr import SolrSpatialDatabase
 
 class TestSolrSpatialDatabase:
     def test_get_data_for_id(
-        self, solr_spatial_database, single_point_geojson_in_feature_collection
+        self, solr_spatial_database, solr_response_with_geojson_field_only
     ):
         solr_spatial_database.call_db.return_value = (
-            single_point_geojson_in_feature_collection
+            solr_response_with_geojson_field_only
         )
 
         response_data = solr_spatial_database.get_data_for_location_id("123abc")
 
         assert isinstance(response_data, FeatureCollection)
         solr_spatial_database.call_db.assert_called_with(
-            query="id:123abc", fl=["geojson"]
+            query="id:123abc"
         )
 
     @pytest.fixture

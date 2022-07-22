@@ -7,7 +7,12 @@ from geojson import Feature, FeatureCollection
 from pysolr import Solr
 
 from document_map_viewer import conf
-from document_map_viewer.commons import Query, SearchFilter, DateSpan
+from document_map_viewer.commons import (
+    Query,
+    SearchFilter,
+    DateSpan,
+    UserInputException,
+)
 from document_map_viewer.databases.spatial import SpatialDatabase
 
 SOLR_PARAMETER_NAME_FILTER_QUERY = "fq"
@@ -52,12 +57,10 @@ class SolrSpatialDatabase(SpatialDatabase):
         If no location can be found with the given `location_id`, the Feature list in the FeatureCollection
         is empty.
         """
-        query = Query(
-            original_raw_string_data=[
-                f"{self.PARAMETER_LOCATION_ID_STRING}:{location_id}"
-            ]
-        )
-        return self.search_locations_related_to_query(query)
+        query_string = f"{self.PARAMETER_LOCATION_ID_STRING}:{location_id}"
+        geojson_feature = self.call_db(query=query_string)
+
+        return convert_json_to_geojson(geojson_feature)
 
     def search_locations_related_to_query(
         self, query: Query, search_filter: SearchFilter = None
@@ -68,11 +71,13 @@ class SolrSpatialDatabase(SpatialDatabase):
         solr_filter = SearchFilter() if search_filter is None else search_filter
         solr_parameters = search_filter_to_solr_filter_query(solr_filter)
 
-        query_string = generate_solr_query_string(
+        query.search_string = generate_solr_query_string(
             query, self.search_term_conjunction_string
         )
 
-        geojson_feature_list = self.call_db(query=query_string, **solr_parameters)
+        geojson_feature_list = self.call_db(
+            query=query.search_string, **solr_parameters
+        )
 
         return convert_json_to_geojson(geojson_feature_list)
 
@@ -184,13 +189,17 @@ def set_search_parameter_defaults(solr_search_parameters: dict) -> None:
     )
 
 
-def generate_date_span_solr_filter_query(date_span: DateSpan) -> Optional[str]:
+def generate_date_span_solr_filter_query(
+    date_span: Optional[DateSpan],
+) -> Optional[str]:
     """Depending on the available data in DateSpan, an appropriate Solr filter query is generated.
     If either the first or the last year is None, their respective value will be their respective wildcard
     ("*" for `first_year` and "NOW" for last_year).
 
-    If both values are None, None is returned.
+    If both values are None, None is returned. The same applies of `date_span` is None.
     """
+    if date_span is None:
+        return None
 
     def raise_if_not_date_or_none(variable) -> None:
         if variable is not None and not isinstance(variable, datetime.date):

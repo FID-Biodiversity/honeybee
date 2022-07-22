@@ -10,6 +10,9 @@ from rest_framework.renderers import JSONRenderer
 from rest_framework.request import Request
 from rest_framework.response import Response
 from document_map_viewer.search import search_spatial_data
+from document_map_viewer import conf
+from http import HTTPStatus
+from document_map_viewer.commons import UserInputException
 
 
 @api_view(["GET", "POST"])
@@ -18,12 +21,22 @@ from document_map_viewer.search import search_spatial_data
 @renderer_classes([JSONRenderer])
 def search_view(request: Request) -> Response:
     """Generates a response holding georeferenced document data."""
-    spatial_data = search_spatial_data(request.GET)
-    content = {
-        'spatialData': spatial_data
-    }
-    return Response(content)
+
+    status_code = HTTPStatus.OK
+    try:
+        spatial_data = search_spatial_data(request.GET)
+        content = {
+            'spatialData': spatial_data
+        }
+    except UserInputException as ex:
+        content = convert_exception_to_response_content(ex)
+        status_code = HTTPStatus.BAD_REQUEST
+
+    return Response(data=content, status=status_code)
 
 
 def convert_exception_to_response_content(exception: Exception) -> dict:
     """ Takes a given exception and converts its content to an exception message. """
+    return {
+        conf.ERROR_MESSAGE_CONTENT_PARAMETER_NAME: exception.args[0]
+    }

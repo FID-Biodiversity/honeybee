@@ -3,7 +3,7 @@ from typing import Iterable
 import pytest
 from django.http import QueryDict
 
-from document_map_viewer.commons import get_from_data
+from document_map_viewer.commons import get_from_data, UserInputException
 from document_map_viewer.tests.commons import create_url_from_parameters
 
 GET_STRING = "GET"
@@ -112,12 +112,12 @@ class TestDataExtractionFromRequest:
             (  # Scenario - Mandatory parameter "term" is missing
                 {"radius": "test"},
                 ({"name": "term", "parameter_type": str, "optional": False},),
-                LookupError,
+                UserInputException,
             ),
             (  # Scenario - Given parameter value is not of the expected type
                 {"radius": "test"},
                 ({"name": "radius", "parameter_type": int, "optional": False},),
-                ValueError,
+                UserInputException,
             ),
         ],
         indirect=["request_data"],

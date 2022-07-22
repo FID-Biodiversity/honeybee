@@ -3,6 +3,7 @@ from datetime import date
 from typing import Callable, Any, Optional, List
 
 from django.http import QueryDict
+from document_map_viewer import conf
 
 
 @dataclass
@@ -42,6 +43,12 @@ class SearchFilter:
     spatial_center: Optional[Point] = None
 
 
+class UserInputException(Exception):
+    """A dedicated exception class for errors that should be returned to the user."""
+
+    pass
+
+
 def get_from_data(
     data: QueryDict,
     name: str,
@@ -62,7 +69,7 @@ def get_from_data(
     is_name_in_data = name in data
 
     if not optional and not is_name_in_data:
-        raise LookupError(f"The parameter '{name}' is missing in the request!")
+        raise UserInputException(f"The parameter '{name}' is missing in the request!")
 
     parameter_value = (
         data.get(name, default) if not is_list else data.getlist(name, default)
@@ -75,8 +82,10 @@ def get_from_data(
             else:
                 parameter_value = parameter_type(parameter_value)
         except ValueError:
-            raise ValueError(
-                f'The parameter "{name}" is expected to be of type {parameter_type}!'
+            raise UserInputException(
+                conf.ERROR_MESSAGE_INPUT_PARAMETER_HAS_WRONG_FORMAT.format(
+                    name=name, parameter_type=parameter_type.__name__
+                )
             )
 
     return parameter_value

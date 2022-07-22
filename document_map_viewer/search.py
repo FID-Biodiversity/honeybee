@@ -11,6 +11,7 @@ from document_map_viewer.commons import (
     Query,
     SearchFilter,
     get_from_data,
+    UserInputException,
 )
 from document_map_viewer import conf
 from document_map_viewer.databases.solr import SolrSpatialDatabase
@@ -117,7 +118,7 @@ def create_date_span_from_url_parameters(url_parameters: QueryDict) -> DateSpan:
 
 
 def create_point_from_url_parameter(url_parameters: QueryDict) -> Optional[Point]:
-    """ Creates a Point object from the given URL parameters.
+    """Creates a Point object from the given URL parameters.
     If only one of the two values, longitude or latitude, is set while the other is None, a ValueError is raised.
     If neither of the two values is set, None is returned.
     """
@@ -134,8 +135,10 @@ def create_point_from_url_parameter(url_parameters: QueryDict) -> Optional[Point
         optional=True,
     )
 
-    if (longitude is None and latitude is not None) or (longitude is not None and latitude is None):
-        raise ValueError('Either both value have to be set or neither.')
+    if (longitude is None and latitude is not None) or (
+        longitude is not None and latitude is None
+    ):
+        raise UserInputException(conf.ERROR_MESSAGE_ONLY_SET_EITHER_LON_OR_LAT)
 
     if longitude is None:
         return None
